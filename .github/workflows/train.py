@@ -72,69 +72,69 @@ param_grids = {
 "model__min_samples_split": [2, 5]
 },
 "SVM": {
-&quot;model__C&quot;: [0.1, 1, 10],
-&quot;model__kernel&quot;: [&quot;linear&quot;, &quot;rbf&quot;],
-&quot;model__gamma&quot;: [&quot;scale&quot;, &quot;auto&quot;]
+"model__C": [0.1, 1, 10],
+"model__kernel": ["linear", "rbf"],
+"model__gamma": ["scale", "auto"]
 }
 }
 # STEP 6: Run GridSearchCV for every algorithm
 results = []
 best_models = {}
 for model_name, model in models.items():
-print(&quot;\n&quot; + &quot;=&quot; * 60)
-print(&quot;Running:&quot;, model_name)
-print(&quot;=&quot; * 60)
+print("\n" + "=" * 60)
+print("Running:", model_name)
+print("=" * 60)
 pipeline = Pipeline([
-(&quot;scaler&quot;, StandardScaler()),
-(&quot;model&quot;, model)
+("scaler", StandardScaler()),
+("model", model)
 ])
 grid_search = GridSearchCV(
 estimator=pipeline,
 param_grid=param_grids[model_name],
-scoring=&quot;f1&quot;,
+scoring="f1",
 cv=5,
 n_jobs=-1
 )
 grid_search.fit(X_train, y_train)
 best_models[model_name] = grid_search.best_estimator_
 results.append({
-&quot;Model&quot;: model_name,
-&quot;Best F1 Score&quot;: grid_search.best_score_,
-&quot;Best Parameters&quot;: grid_search.best_params_
+"Model": model_name,
+"Best F1 Score": grid_search.best_score_,
+"Best Parameters": grid_search.best_params_
 })
-print(&quot;Best F1 Score:&quot;,
+print("Best F1 Score:",
 round(grid_search.best_score_, 4))
-print(&quot;Best Parameters:&quot;,
+print("Best Parameters:",
 grid_search.best_params_)
 # STEP 7: Compare all models
 results_df = pd.DataFrame(results)
 results_df = results_df.sort_values(
-by=&quot;Best F1 Score&quot;,
+by="Best F1 Score",
 ascending=False
 )
-print(&quot;\n&quot; + &quot;=&quot; * 60)
-print(&quot;MODEL COMPARISON&quot;)
-print(&quot;=&quot; * 60)
+print("\n" + "=" * 60)
+print("MODEL COMPARISON")
+print("=" * 60)
 print(
 results_df[
-[&quot;Model&quot;, &quot;Best F1 Score&quot;]
+["Model", ";Best F1 Score"]
 ].to_string(index=False)
 )
 # STEP 8: Select the best model
-best_model_name = results_df.iloc[0][&quot;Model&quot;]
+best_model_name = results_df.iloc[0]["Model"]
 best_model = best_models[best_model_name]
-best_cv_f1 = results_df.iloc[0][&quot;Best F1 Score&quot;]
-print(&quot;\nBest model based on CV F1-score:&quot;)
+best_cv_f1 = results_df.iloc[0]["Best F1 Score"]
+print("\nBest model based on CV F1-score:")
 print(best_model_name)
-print(&quot;\nBest CV F1-score:&quot;)
+print("\nBest CV F1-score:")
 print(round(best_cv_f1, 4))
 # STEP 9: Evaluate on unseen test data
 y_pred = best_model.predict(X_test)
-print(&quot;\n&quot; + &quot;=&quot; * 60)
-print(&quot;FINAL MODEL EVALUATION&quot;)
-print(&quot;=&quot; * 60)
-print(&quot;Accuracy:&quot;, accuracy_score(y_test, y_pred))
-print(&quot;F1 Score:", f1_score(y_test, y_pred))
+print("\n" + "=" * 60)
+print("FINAL MODEL EVALUATION")
+print("=" * 60)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("F1 Score:", f1_score(y_test, y_pred))
 print("\nClassification Report:")
 print(
 classification_report(
@@ -146,6 +146,6 @@ target_names=data.target_names
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 # STEP 10: Save the best model
-joblib.dump(best_model, &quot;best_model.joblib&quot;)
-print(&quot;\nBest model saved successfully!&quot;)
-print(&quot;Model:&quot;, best_model_name)
+joblib.dump(best_model, "best_model.joblib")
+print("\nBest model saved successfully!")
+print("Model:", best_model_name)
