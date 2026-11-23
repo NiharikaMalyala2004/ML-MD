@@ -22,11 +22,11 @@ X = pd.DataFrame(
 data.data,
 columns=data.feature_names
 )
-y = pd.Series(data.target, name=&quot;target&quot;)
-print(&quot;Dataset shape:&quot;, X.shape)
-print(&quot;\nFirst 5 rows:&quot;)
+y = pd.Series(data.target, name="target")
+print("Dataset shape:", X.shape)
+print("\nFirst 5 rows:")
 print(X.head())
-print(&quot;\nTarget values:&quot;)
+print("\nTarget values:")
 print(y.value_counts())
 # STEP 3: Split dataset
 X_train, X_test, y_train, y_test = train_test_split(
@@ -36,42 +36,42 @@ test_size=0.20,
 random_state=42,
 stratify=y
 )
-print(&quot;\nTraining samples:&quot;, X_train.shape[0])
-print(&quot;Testing samples:&quot;, X_test.shape[0])
+print("\nTraining samples:", X_train.shape[0])
+print(";Testing samples:", X_test.shape[0])
 # STEP 4: Define classification algorithms
 models = {
-&quot;Logistic Regression&quot;: LogisticRegression(
+"Logistic Regression": LogisticRegression(
 max_iter=5000
 ),
-&quot;KNN&quot;: KNeighborsClassifier(),
-&quot;Decision Tree&quot;: DecisionTreeClassifier(
+"KNN": KNeighborsClassifier(),
+"Decision Tree": DecisionTreeClassifier(
 random_state=42
 ),
-&quot;Random Forest&quot;: RandomForestClassifier(
+"Random Forest": RandomForestClassifier(
 random_state=42
 ),
-&quot;SVM&quot;: SVC()
+"SVM": SVC()
 }
 # STEP 5: Define hyperparameter grids
 param_grids = {
-&quot;Logistic Regression&quot;: {
-&quot;model__C&quot;: [0.1, 1, 10],
-&quot;model__solver&quot;: [&quot;liblinear&quot;]
+"Logistic Regression": {
+"model__C": [0.1, 1, 10],
+"model__solver": ["liblinear"]
 },
-&quot;KNN&quot;: {
-&quot;model__n_neighbors&quot;: [3, 5, 7, 9],
-&quot;model__weights&quot;: [&quot;uniform&quot;, &quot;distance&quot;]
+"KNN": {
+"model__n_neighbors": [3, 5, 7, 9],
+"model__weights": ["uniform", "distance"]
 },
-&quot;Decision Tree&quot;: {
-&quot;model__max_depth&quot;: [None, 3, 5, 10],
-&quot;model__min_samples_split&quot;: [2, 5, 10]
+"Decision Tree": {
+"model__max_depth": [None, 3, 5, 10],
+"model__min_samples_split": [2, 5, 10]
 },
-&quot;Random Forest&quot;: {
-&quot;model__n_estimators&quot;: [100, 200],
-&quot;model__max_depth&quot;: [None, 5, 10],
-&quot;model__min_samples_split&quot;: [2, 5]
+"Random Forest": {
+"model__n_estimators": [100, 200],
+"model__max_depth": [None, 5, 10],
+"model__min_samples_split": [2, 5]
 },
-&quot;SVM&quot;: {
+"SVM": {
 &quot;model__C&quot;: [0.1, 1, 10],
 &quot;model__kernel&quot;: [&quot;linear&quot;, &quot;rbf&quot;],
 &quot;model__gamma&quot;: [&quot;scale&quot;, &quot;auto&quot;]
@@ -134,8 +134,8 @@ print(&quot;\n&quot; + &quot;=&quot; * 60)
 print(&quot;FINAL MODEL EVALUATION&quot;)
 print(&quot;=&quot; * 60)
 print(&quot;Accuracy:&quot;, accuracy_score(y_test, y_pred))
-print(&quot;F1 Score:&quot;, f1_score(y_test, y_pred))
-print(&quot;\nClassification Report:&quot;)
+print(&quot;F1 Score:", f1_score(y_test, y_pred))
+print("\nClassification Report:")
 print(
 classification_report(
 y_test,
@@ -143,7 +143,7 @@ y_pred,
 target_names=data.target_names
 )
 )
-print(&quot;\nConfusion Matrix:&quot;)
+print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 # STEP 10: Save the best model
 joblib.dump(best_model, &quot;best_model.joblib&quot;)
